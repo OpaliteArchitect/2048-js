@@ -6,21 +6,7 @@ for (let r = 0; r < 4; r++) {
     }
 }
 
-const cells = document.querySelectorAll(".cell");
-
-function rowColToIndex(row, col) {
-    return row * 4 + col;
-}
-
-function indexToCol(index) {
-    return index % 4;
-}
-
-function indexToRow(index) {
-    return index / 4;
-}
-
-function rotateBoardClockwise(rotations) {
+export function rotateBoardClockwise(rotations) {
     for (let i = 0; i < rotations; i++) {
         for (let r = 0; r < 4; r++) {
             for (let c = r + 1; c < 4; c++) {
@@ -35,7 +21,7 @@ function rotateBoardClockwise(rotations) {
     }
 }
 
-function shiftBoardLeft() {
+export function shiftBoardLeft() {
     for (const row of board) {
         for (let c = 1; c < row.length; c++) {
             if (row[c - 1] === 0) {
@@ -62,4 +48,18 @@ function shiftBoardLeft() {
             }
         }
     }
+}
+
+export function spawnNewTile() {
+    let r, c;
+    do {
+        r = getRandomInt(0, 3);
+        c = getRandomInt(0, 3);
+    } while (board[r][c] !== 0);
+
+    board[r][c] = getRandomInt(1, 100) <= 90 ? 2 : 4;
+}
+
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 }
