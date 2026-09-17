@@ -4,7 +4,7 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" type="text/css" href="styles.css" />
-        <script src="script.js" defer></script>
+        <script type="module" src="./js/controller.js" defer></script>
         <title>2048</title>
     </head>
     <body>
@@ -29,10 +29,16 @@
                     <div class="cell"></div>
                 </div>
                 <div class="arrows-container">
-                    <button class="arrow up">UP</button>
-                    <button class="arrow left">LEFT</button>
-                    <button class="arrow right">RIGHT</button>
-                    <button class="arrow down">DOWN</button>
+                    <button class="arrow up" data-direction="up">UP</button>
+                    <button class="arrow left" data-direction="left">
+                        LEFT
+                    </button>
+                    <button class="arrow right" data-direction="right">
+                        RIGHT
+                    </button>
+                    <button class="arrow down" data-direction="down">
+                        DOWN
+                    </button>
                 </div>
             </div>
         </main>

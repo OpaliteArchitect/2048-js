@@ -1,3 +1,52 @@
+import { arrows, cells } from "./dom.js";
+import {
+    board,
+    rotateBoardClockwise,
+    shiftBoardLeft,
+    spawnNewTile,
+} from "./game-model.js";
+
+spawnNewTile();
+spawnNewTile();
+render();
+
+for (const arrow of arrows) {
+    arrow.addEventListener("click", handleArrowClick);
+}
+
+function handleArrowClick(event) {
+    let arrow = event.target;
+    switch (arrow.dataset.direction) {
+        case "up":
+            rotateBoardClockwise(3);
+            shiftBoardLeft();
+            rotateBoardClockwise(1);
+            break;
+        case "left":
+            shiftBoardLeft();
+            break;
+        case "right":
+            rotateBoardClockwise(2);
+            shiftBoardLeft();
+            rotateBoardClockwise(2);
+            break;
+        case "down":
+            rotateBoardClockwise(1);
+            shiftBoardLeft();
+            rotateBoardClockwise(3);
+            break;
+    }
+    spawnNewTile();
+    render();
+}
+
+function render() {
+    for (let i = 0; i < cells.length; i++) {
+        const value = board[indexToRow(i)][indexToCol(i)];
+        cells[i].textContent = value === 0 ? "" : value;
+    }
+}
+
 function rowColToIndex(row, col) {
     return row * 4 + col;
 }
@@ -7,5 +56,5 @@ function indexToCol(index) {
 }
 
 function indexToRow(index) {
-    return index / 4;
+    return Math.floor(index / 4);
 }

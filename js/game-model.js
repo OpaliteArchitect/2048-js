@@ -1,4 +1,4 @@
-const board = [];
+export const board = [];
 for (let r = 0; r < 4; r++) {
     board[r] = [];
     for (let c = 0; c < 4; c++) {
