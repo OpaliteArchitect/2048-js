@@ -1,0 +1,56 @@
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    gap: 8px;
+    width: 400px;
+    height: 400px;
+    border: solid 2px black;
+}
+
+.cell {
+    text-align: center;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.arrows-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    width: 200px;
+    height: 200px;
+}
+
+.btn {
+    width: 80px;
+    height: 80px;
+    place-self: center center;
+}
+
+.up {
+    grid-area: 1 / 2 / 1 / 2;
+}
+
+.left {
+    grid-area: 2 / 1 / 2 / 1;
+}
+
+.right {
+    grid-area: 2 / 3 / 2 / 3;
+}
+
+.down {
+    grid-area: 3 / 2 / 3 / 2;
+}
