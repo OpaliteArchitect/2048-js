@@ -14,6 +14,7 @@ const WINNING_MESSAGE = "You won!";
 const LOSING_MESSAGE = "Game over.";
 
 function resetGame() {
+    statusMessage.textContent = "";
     resetBoard();
     spawnNewTile();
     spawnNewTile();
