@@ -1,6 +1,8 @@
 import { arrows, cells } from "./dom.js";
 import {
     board,
+    Has2048,
+    isGameOver,
     rotateBoardClockwise,
     shiftBoardLeft,
     spawnNewTile,
@@ -36,6 +38,15 @@ function handleArrowClick(event) {
             rotateBoardClockwise(3);
             break;
     }
+
+    if (Has2048()) {
+        return;
+    }
+
+    if (isGameOver()) {
+        return;
+    }
+
     spawnNewTile();
     render();
 }
