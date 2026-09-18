@@ -1,22 +1,42 @@
-import { arrows, cells } from "./dom.js";
+import { arrows, cells, restart, statusMessage } from "./dom.js";
 import {
     board,
-    Has2048,
-    isGameOver,
+    resetBoard,
     rotateBoardClockwise,
     shiftBoardLeft,
     spawnNewTile,
+    status,
 } from "./game-model.js";
 
-spawnNewTile();
-spawnNewTile();
-render();
+resetGame();
+
+const WINNING_MESSAGE = "You won!";
+const LOSING_MESSAGE = "Game over.";
+
+function resetGame() {
+    resetBoard();
+    spawnNewTile();
+    spawnNewTile();
+    render();
+}
 
 for (const arrow of arrows) {
     arrow.addEventListener("click", handleArrowClick);
 }
 
+restart.addEventListener("click", resetGame);
+
 function handleArrowClick(event) {
+    if (status.isWon) {
+        statusMessage.textContent = WINNING_MESSAGE;
+        return;
+    }
+
+    if (status.isGameOver) {
+        statusMessage.textContent = LOSING_MESSAGE;
+        return;
+    }
+
     let arrow = event.target;
     switch (arrow.dataset.direction) {
         case "up":
@@ -39,16 +59,10 @@ function handleArrowClick(event) {
             break;
     }
 
-    if (Has2048()) {
-        return;
+    if (!status.isFull) {
+        spawnNewTile();
+        render();
     }
-
-    if (isGameOver()) {
-        return;
-    }
-
-    spawnNewTile();
-    render();
 }
 
 function render() {

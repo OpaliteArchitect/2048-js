@@ -1,8 +1,14 @@
 export const board = [];
 for (let r = 0; r < 4; r++) {
     board[r] = [];
-    for (let c = 0; c < 4; c++) {
-        board[r][c] = 0;
+}
+resetBoard();
+
+export function resetBoard() {
+    for (let r = 0; r < 4; r++) {
+        for (let c = 0; c < 4; c++) {
+            board[r][c] = 0;
+        }
     }
 }
 
@@ -60,7 +66,19 @@ export function spawnNewTile() {
     board[r][c] = getRandomInt(1, 100) <= 90 ? 2 : 4;
 }
 
-export function isGameOver() {
+export const status = {
+    get isGameOver() {
+        return isGameOver();
+    },
+    get isWon() {
+        return has2048();
+    },
+    get isFull() {
+        return isFull();
+    },
+};
+
+function isGameOver() {
     for (let r = 0; r < 4; r++) {
         for (let c = 0; c < 4; c++) {
             if (board[r][c] === 0) {
@@ -85,7 +103,7 @@ export function isGameOver() {
     return true;
 }
 
-export function Has2048() {
+function has2048() {
     for (const row of board) {
         for (const cell of row) {
             if (cell === 2048) {
@@ -95,6 +113,18 @@ export function Has2048() {
     }
 
     return false;
+}
+
+function isFull() {
+    for (const row of board) {
+        for (const cell of row) {
+            if (cell === 0) {
+                return false;
+            }
+        }
+    }
+
+    return true;
 }
 
 const adjacentOffsets = [
