@@ -8,7 +8,7 @@ import {
     status,
 } from "./game-model.js";
 
-let highScore = 0;
+let highScore = Number(localStorage.getItem("highScore")) ?? 0;
 const WINNING_MESSAGE = "You won!";
 const LOSING_MESSAGE = "Game over.";
 
@@ -31,19 +31,13 @@ dom.restart.addEventListener("click", resetGame);
 
 function handleArrowClick(event) {
     if (status.isWon) {
-        if (status.score > highScore) {
-            highScore = status.score;
-            dom.highScore.textContent = highScore;
-        }
+        compareHighScore();
         dom.statusMessage.textContent = WINNING_MESSAGE;
         return;
     }
 
     if (status.isGameOver) {
-        if (status.score > highScore) {
-            highScore = status.score;
-            dom.highScore.textContent = highScore;
-        }
+        compareHighScore();
         dom.statusMessage.textContent = LOSING_MESSAGE;
         return;
     }
@@ -84,6 +78,14 @@ function render() {
 
     dom.score.textContent = status.score;
     dom.highScore.textContent = highScore;
+}
+
+function compareHighScore() {
+    if (status.score > highScore) {
+        highScore = status.score;
+        dom.highScore.textContent = highScore;
+        localStorage.setItem("highScore", highScore);
+    }
 }
 
 function rowColToIndex(row, col) {
