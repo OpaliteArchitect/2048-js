@@ -30,9 +30,10 @@ export function rotateBoardClockwise(rotations) {
 export function shiftBoardLeft() {
     for (const row of board) {
         for (let c = 1; c < row.length; c++) {
-            if (row[c - 1] === 0) {
+            while (c > 0 && row[c] !== 0 && row[c - 1] === 0) {
                 row[c - 1] = row[c];
                 row[c] = 0;
+                c--;
             }
         }
     }
@@ -42,15 +43,17 @@ export function shiftBoardLeft() {
             if (row[c] !== 0 && row[c] === row[c + 1]) {
                 row[c] = row[c] * 2;
                 row[c + 1] = 0;
+                status.score += row[c];
             }
         }
     }
 
     for (const row of board) {
         for (let c = 1; c < row.length; c++) {
-            if (row[c - 1] === 0) {
+            while (c > 0 && row[c] !== 0 && row[c - 1] === 0) {
                 row[c - 1] = row[c];
                 row[c] = 0;
+                c--;
             }
         }
     }
@@ -66,17 +69,29 @@ export function spawnNewTile() {
     board[r][c] = getRandomInt(1, 100) <= 90 ? 2 : 4;
 }
 
-export const status = {
+class Status {
+    #score = 0;
+
+    get score() {
+        return this.#score;
+    }
+
+    set score(value) {
+        this.#score = value;
+    }
+
     get isGameOver() {
         return isGameOver();
-    },
+    }
     get isWon() {
         return has2048();
-    },
+    }
     get isFull() {
         return isFull();
-    },
-};
+    }
+}
+
+export const status = new Status();
 
 function isGameOver() {
     for (let r = 0; r < 4; r++) {

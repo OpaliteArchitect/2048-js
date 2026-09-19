@@ -1,4 +1,4 @@
-import { arrows, cells, restart, statusMessage } from "./dom.js";
+import { arrows, cells, restart, score, statusMessage } from "./dom.js";
 import {
     board,
     resetBoard,
@@ -15,6 +15,7 @@ const LOSING_MESSAGE = "Game over.";
 
 function resetGame() {
     statusMessage.textContent = "";
+    status.score = 0;
     resetBoard();
     spawnNewTile();
     spawnNewTile();
@@ -71,6 +72,8 @@ function render() {
         const value = board[indexToRow(i)][indexToCol(i)];
         cells[i].textContent = value === 0 ? "" : value;
     }
+
+    score.textContent = status.score;
 }
 
 function rowColToIndex(row, col) {
