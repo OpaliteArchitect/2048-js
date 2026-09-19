@@ -12,11 +12,13 @@ let highScore = Number(localStorage.getItem("highScore") ?? 0);
 const WINNING_MESSAGE = "You won!";
 const LOSING_MESSAGE = "Game over.";
 
+attachEventListeners();
 //mock();
 resetGame();
 
 function resetGame() {
     dom.statusMessage.textContent = "";
+    compareHighScore();
     status.score = 0;
     resetBoard();
     spawnNewTile();
@@ -36,22 +38,26 @@ function mock() {
     render();
 }
 
-for (const arrow of dom.arrows) {
-    arrow.addEventListener("click", handleArrowClick);
-}
+function attachEventListeners() {
+    for (const arrow of dom.arrows) {
+        arrow.addEventListener("click", handleArrowClick);
+    }
 
-dom.restart.addEventListener("click", resetGame);
+    dom.restart.addEventListener("click", resetGame);
+}
 
 function handleArrowClick(event) {
     if (status.isWon) {
         compareHighScore();
         dom.statusMessage.textContent = WINNING_MESSAGE;
+        render();
         return;
     }
 
     if (status.isGameOver) {
         compareHighScore();
         dom.statusMessage.textContent = LOSING_MESSAGE;
+        render();
         return;
     }
 
@@ -77,10 +83,25 @@ function handleArrowClick(event) {
             break;
     }
 
+    if (status.isWon) {
+        compareHighScore();
+        dom.statusMessage.textContent = WINNING_MESSAGE;
+        render();
+        return;
+    }
+
+    if (status.isGameOver) {
+        compareHighScore();
+        dom.statusMessage.textContent = LOSING_MESSAGE;
+        render();
+        return;
+    }
+
     if (!status.isFull) {
         spawnNewTile();
-        render();
     }
+
+    render();
 }
 
 function render() {
@@ -89,25 +110,29 @@ function render() {
         dom.cells[i].textContent = value === 0 ? "" : value;
 
         const power = Math.log2(value);
-        const hue = Math.max(0, 60 - (power - 1) * 5);
-        const saturation = Math.max(100, 50 + (power - 1) * 5);
-        const lightness = Math.max(45, 95 - (power - 1) * 5);
+        const hue = 60 - (power - 1) * 5; // 60 to 10
+        // const saturation = 50 + (power - 1) * 5; // 50 to 100
+        const lightness = 95 - (power - 1) * 5; // 95 to 45
         dom.cells[i].style.setProperty(
             "background-color",
-            value ? `hsl(${hue} ${saturation}% ${lightness}%)` : "white",
+            value ? `hsl(${hue} 100% ${lightness}%)` : "white",
         );
     }
 
     dom.score.textContent = status.score;
-    dom.highScore.textContent = highScore;
+    if (dom.statusMessage.textContent === "") {
+        dom.statusMessage.classList.add("hidden");
+    } else {
+        dom.statusMessage.classList.remove("hidden");
+    }
 }
 
 function compareHighScore() {
     if (status.score > highScore) {
         highScore = status.score;
-        dom.highScore.textContent = highScore;
         localStorage.setItem("highScore", highScore);
     }
+    dom.highScore.textContent = highScore;
 }
 
 function rowColToIndex(row, col) {

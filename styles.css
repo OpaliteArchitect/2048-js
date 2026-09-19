@@ -1,34 +1,68 @@
+* {
+    box-sizing: border-box;
+}
+
 main {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    padding: 2.5rem 1rem;
+    width: 100%;
 }
 
 .game-container {
-    display: flex;
+    width: 100%;
+    min-height: 100vh;
+    padding: 2.5rem 1rem;
+    max-width: 400px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     flex-direction: column;
     align-items: center;
-    gap: 1em;
+    gap: 0.5em 1em;
+}
+
+.scores-container {
+    grid-column: 1 / span 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: dotted 1px red;
+}
+
+.restart {
+    grid-column: 3 / span 1;
+    padding: 1rem 0.5rem;
 }
 
 .status-message {
+    padding: 1rem;
+    font-size: 2rem;
+    grid-column: 1 / span 3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hidden {
+    display: none;
 }
 
 .board-container {
+    grid-column: 1 / span 3;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(4, 1fr);
     gap: 8px;
-    width: 400px;
-    height: 400px;
+    width: 100%;
+    aspect-ratio: 1 / 1;
     border: solid 3px gray;
     background-color: lightgray;
     gap: 2px;
 }
 
 .cell {
+    aspect-ratio: 1 / 1;
     background-color: white;
     display: flex;
     justify-content: center;
@@ -37,31 +71,40 @@ main {
 }
 
 .arrows-container {
+    grid-column: 1 / span 3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.arrows {
     display: grid;
+    padding: 0.5rem;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
-    width: 240px;
-    height: 240px;
+    gap: 0.5em;
+    width: 270px;
+    aspect-ratio: 1 / 1;
 }
 
 .arrow {
-    width: 80px;
-    height: 80px;
+    width: 100%;
+    aspect-ratio: 1 / 1;
     place-self: center center;
 }
 
 .up {
-    grid-area: 1 / 2 / 1 / 2;
+    grid-area: 1 / 2 / span 1 / span 1;
 }
 
 .left {
-    grid-area: 2 / 1 / 2 / 1;
+    grid-area: 2 / 1 / span 1 / span 1;
 }
 
 .right {
-    grid-area: 2 / 3 / 2 / 3;
+    grid-area: 2 / 3 / span 1 / span 1;
 }
 
 .down {
-    grid-area: 3 / 2 / 3 / 2;
+    grid-area: 3 / 2 / span 1 / span 1;
 }
