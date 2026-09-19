@@ -1,20 +1,43 @@
-import { arrows, cells } from "./dom.js";
+import { arrows, cells, restart, statusMessage } from "./dom.js";
 import {
     board,
+    resetBoard,
     rotateBoardClockwise,
     shiftBoardLeft,
     spawnNewTile,
+    status,
 } from "./game-model.js";
 
-spawnNewTile();
-spawnNewTile();
-render();
+resetGame();
+
+const WINNING_MESSAGE = "You won!";
+const LOSING_MESSAGE = "Game over.";
+
+function resetGame() {
+    statusMessage.textContent = "";
+    resetBoard();
+    spawnNewTile();
+    spawnNewTile();
+    render();
+}
 
 for (const arrow of arrows) {
     arrow.addEventListener("click", handleArrowClick);
 }
 
+restart.addEventListener("click", resetGame);
+
 function handleArrowClick(event) {
+    if (status.isWon) {
+        statusMessage.textContent = WINNING_MESSAGE;
+        return;
+    }
+
+    if (status.isGameOver) {
+        statusMessage.textContent = LOSING_MESSAGE;
+        return;
+    }
+
     let arrow = event.target;
     switch (arrow.dataset.direction) {
         case "up":
@@ -36,8 +59,11 @@ function handleArrowClick(event) {
             rotateBoardClockwise(3);
             break;
     }
-    spawnNewTile();
-    render();
+
+    if (!status.isFull) {
+        spawnNewTile();
+        render();
+    }
 }
 
 function render() {
