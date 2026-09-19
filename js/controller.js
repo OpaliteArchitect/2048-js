@@ -1,4 +1,4 @@
-import { arrows, cells, restart, score, statusMessage } from "./dom.js";
+import * as dom from "./dom.js";
 import {
     board,
     resetBoard,
@@ -8,13 +8,14 @@ import {
     status,
 } from "./game-model.js";
 
-resetGame();
-
+let highScore = 0;
 const WINNING_MESSAGE = "You won!";
 const LOSING_MESSAGE = "Game over.";
 
+resetGame();
+
 function resetGame() {
-    statusMessage.textContent = "";
+    dom.statusMessage.textContent = "";
     status.score = 0;
     resetBoard();
     spawnNewTile();
@@ -22,20 +23,28 @@ function resetGame() {
     render();
 }
 
-for (const arrow of arrows) {
+for (const arrow of dom.arrows) {
     arrow.addEventListener("click", handleArrowClick);
 }
 
-restart.addEventListener("click", resetGame);
+dom.restart.addEventListener("click", resetGame);
 
 function handleArrowClick(event) {
     if (status.isWon) {
-        statusMessage.textContent = WINNING_MESSAGE;
+        if (status.score > highScore) {
+            highScore = status.score;
+            dom.highScore.textContent = highScore;
+        }
+        dom.statusMessage.textContent = WINNING_MESSAGE;
         return;
     }
 
     if (status.isGameOver) {
-        statusMessage.textContent = LOSING_MESSAGE;
+        if (status.score > highScore) {
+            highScore = status.score;
+            dom.highScore.textContent = highScore;
+        }
+        dom.statusMessage.textContent = LOSING_MESSAGE;
         return;
     }
 
@@ -68,12 +77,13 @@ function handleArrowClick(event) {
 }
 
 function render() {
-    for (let i = 0; i < cells.length; i++) {
+    for (let i = 0; i < dom.cells.length; i++) {
         const value = board[indexToRow(i)][indexToCol(i)];
-        cells[i].textContent = value === 0 ? "" : value;
+        dom.cells[i].textContent = value === 0 ? "" : value;
     }
 
-    score.textContent = status.score;
+    dom.score.textContent = status.score;
+    dom.highScore.textContent = highScore;
 }
 
 function rowColToIndex(row, col) {
