@@ -62,26 +62,29 @@ function handleArrowClick(event) {
     }
 
     let arrow = event.target;
+    let hasMoved = false;
     switch (arrow.dataset.direction) {
         case "up":
             rotateBoardClockwise(3);
-            shiftBoardLeft();
+            hasMoved = shiftBoardLeft();
             rotateBoardClockwise(1);
             break;
         case "left":
-            shiftBoardLeft();
+            hasMoved = shiftBoardLeft();
             break;
         case "right":
             rotateBoardClockwise(2);
-            shiftBoardLeft();
+            hasMoved = shiftBoardLeft();
             rotateBoardClockwise(2);
             break;
         case "down":
             rotateBoardClockwise(1);
-            shiftBoardLeft();
+            hasMoved = shiftBoardLeft();
             rotateBoardClockwise(3);
             break;
     }
+
+    if (!hasMoved) return;
 
     if (status.isWon) {
         compareHighScore();
