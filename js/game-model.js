@@ -28,12 +28,15 @@ export function rotateBoardClockwise(rotations) {
 }
 
 export function shiftBoardLeft() {
+    let hasMoved = false;
+
     for (const row of board) {
         for (let c = 1; c < row.length; c++) {
             while (c > 0 && row[c] !== 0 && row[c - 1] === 0) {
                 row[c - 1] = row[c];
                 row[c] = 0;
                 c--;
+                hasMoved = true;
             }
         }
     }
@@ -44,6 +47,7 @@ export function shiftBoardLeft() {
                 row[c] = row[c] * 2;
                 row[c + 1] = 0;
                 status.score += row[c];
+                hasMoved = true;
             }
         }
     }
@@ -54,9 +58,12 @@ export function shiftBoardLeft() {
                 row[c - 1] = row[c];
                 row[c] = 0;
                 c--;
+                hasMoved = true;
             }
         }
     }
+
+    return hasMoved;
 }
 
 export function spawnNewTile() {
